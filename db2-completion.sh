@@ -137,6 +137,7 @@ _db2() {
         deactivate
         describe
         list
+        runstats
         terminate
     )
 
@@ -465,6 +466,30 @@ _db2_list_utilities()
     fi
 }
 
+_db2_runstats() 
+{
+    if [[ ${prev} = "runstats" ]] ; then
+        COMPREPLY="on table"
+    elif [[ ${prev} = "use" || ${prev} = "unset" ]] ; then
+        COMPREPLY="profile"
+    elif [[ ${prev} = "with" ]] ; then
+        COMPREPLY="distribution"
+    elif [[ ${prev} = "distribution" ]] ; then
+        COMPREPLY="and"
+    elif [[ ${prev} = "and" ]] ; then
+        COMPREPLY=( $(compgen -W "sampled detailed indexes" -- "$cur") )
+    fi
+    
+    if [[ ${prevprev} = "table" ]] ; then
+        COMPREPLY=( $(compgen -W "use unset with and" -- "$cur") )
+    elif [[ ${prevprev} = "and" && ${prev} = "sampled" ]] ; then
+        COMPREPLY=( $(compgen -W "detailed indexes" -- "$cur") )
+    elif [[ ${prevprev} = "and" && ${prev} = "indexes" ]] ; then
+        COMPREPLY="all"
+    elif [[ ${prevprev} = "and" || ${prevprev} = "sampled" && ${prev} = "detailed" ]] ; then
+        COMPREPLY="indexes all"
+    fi
 
+}
 
 

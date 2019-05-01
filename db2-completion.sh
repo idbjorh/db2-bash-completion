@@ -22,7 +22,13 @@ shopt -s extglob
 # __db2_databases returns a list of Db2 databases.
 #
 __db2_databases() {
-    db2 list db directory | awk '{ if (/Database alias/) {print $4}}' 
+
+    # Use the cache file only if it's less than 60 minutes old.
+    if [[ -f $(find $HOME -maxdepth 1 -name .db2completion-dbs -mmin 60) ]] ; then
+        cat $HOME/.db2completion-dbs
+    else 
+        db2 list db directory | awk '{ if (/Database alias/) {print tolower($4)}}' | tee $HOME/.db2completion-dbs
+    fi
 }
 
 __db2_complete_databases() 

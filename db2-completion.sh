@@ -26,10 +26,10 @@ __db2_databases() {
     # Use the cache file only if it's less than 60 minutes old.
     #    note this depends on find having a -mmin option, which probably breaks
     #    this on AIX, Solaris
-    if [[ -f $(find $HOME -maxdepth 1 -name .db2completion-dbs -mmin -60) ]] ; then
-        cat $HOME/.db2completion-dbs
+    if [[ -f $(find ${HOME} -maxdepth 1 -name .db2completion-dbs-${DB2INSTANCE} -mmin -60) ]] ; then
+        cat $HOME/.db2completion-dbs-${DB2INSTANCE}
     else 
-        db2 list db directory | awk '{ if (/Database alias/) {print $4}}' | tee $HOME/.db2completion-dbs
+        db2 list db directory | awk '{ if (/Database alias/) {print $4}}' | tee $HOME/.db2completion-dbs-${DB2INSTANCE}
     fi
 }
 

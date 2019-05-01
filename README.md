@@ -1,7 +1,7 @@
 # Db2 Bash Completion
 
 db2-completion.sh defines a set of shell functions to provide command-line completion 
-for the IBM Db2 Command Line Processor, `db2`.
+for CLP _commands_ of the IBM Db2 Command Line Processor.
 
 
 ## Installation
@@ -50,7 +50,19 @@ Currently, db2-completion.sh supports the following Db2 CLP Commands:
 - LIST TABLESPACE CONTAINERS
 - LIST TABLESPACES
 - LIST UTILITIES
+- RUNSTATS
 - TERMINATE
 
-Not all options are available for all CLP Commands.
+
+## Usage Notes
+
+- Not all options are available for all supported CLP Commands; completion is 
+  supported for typical sets of options.
+
+- Table name completion is not supported (for performance reasons).
+
+- Command completion will not work if commands are enclosed in quotes, i.e.:
+
+        db2 "con<TAB>"
+
 

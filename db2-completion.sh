@@ -24,10 +24,12 @@ shopt -s extglob
 __db2_databases() {
 
     # Use the cache file only if it's less than 60 minutes old.
-    if [[ -f $(find $HOME -maxdepth 1 -name .db2completion-dbs -mmin 60) ]] ; then
+    #    note this depends on find having a -mmin option, which probably breaks
+    #    this on AIX, Solaris
+    if [[ -f $(find $HOME -maxdepth 1 -name .db2completion-dbs -mmin -60) ]] ; then
         cat $HOME/.db2completion-dbs
     else 
-        db2 list db directory | awk '{ if (/Database alias/) {print tolower($4)}}' | tee $HOME/.db2completion-dbs
+        db2 list db directory | awk '{ if (/Database alias/) {print $4}}' | tee $HOME/.db2completion-dbs
     fi
 }
 
